@@ -1,0 +1,8 @@
+pipecat
+deepgram-sdk
+cartesia
+python-dotenv
+fastapi
+uvicorn
+pydantic
+pytest
