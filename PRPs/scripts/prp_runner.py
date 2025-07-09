@@ -4,14 +4,14 @@
 KISS version - no repo-specific assumptions.
 
 Typical usage:
-    uv run RUNNERS/claude_runner.py --prp test --interactive
-    uv run RUNNERS/claude_runner.py --prp test --output-format json
-    uv run RUNNERS/claude_runner.py --prp test --output-format stream-json
+    uv run RUNNERS/gemini_runner.py --prp test --interactive
+    uv run RUNNERS/gemini_runner.py --prp test --output-format json
+    uv run RUNNERS/gemini_runner.py --prp test --output-format stream-json
 
 Arguments:
     --prp-path       Path to a PRP markdown file (overrides --prp)
     --prp            Feature key; resolves to PRPs/{feature}.md
-    --model          CLI executable for the LLM (default: "claude") Only Claude Code is supported for now
+    --model          CLI executable for the LLM (default: "gemini") Only Gemini CLI is supported for now
     --interactive    Pass through to run the model in chat mode; otherwise headless.
     --output-format  Output format for headless mode: text, json, stream-json (default: text)
 """
@@ -70,18 +70,19 @@ def build_prompt(prp_path: Path) -> str:
 
 def stream_json_output(process: subprocess.Popen) -> Iterator[Dict[str, Any]]:
     """Parse streaming JSON output line by line."""
-    for line in process.stdout:
-        line = line.strip()
-        if line:
-            try:
-                yield json.loads(line)
-            except json.JSONDecodeError as e:
-                print(f"Warning: Failed to parse JSON line: {e}", file=sys.stderr)
-                print(f"Line content: {line}", file=sys.stderr)
+    if process.stdout:
+        for line in process.stdout:
+            line = line.strip()
+            if line:
+                try:
+                    yield json.loads(line)
+                except json.JSONDecodeError as e:
+                    print(f"Warning: Failed to parse JSON line: {e}", file=sys.stderr)
+                    print(f"Line content: {line}", file=sys.stderr)
 
 
 def handle_json_output(output: str) -> Dict[str, Any]:
-    """Parse the JSON output from Claude Code."""
+    """Parse the JSON output from Gemini CLI."""
     try:
         return json.loads(output)
     except json.JSONDecodeError as e:
@@ -91,7 +92,7 @@ def handle_json_output(output: str) -> Dict[str, Any]:
 
 def run_model(
     prompt: str,
-    model: str = "claude",
+    model: str = "gemini",
     interactive: bool = False,
     output_format: str = "text",
 ) -> None:
@@ -172,9 +173,11 @@ def run_model(
                 # Wait for process to complete
                 process.wait()
                 if process.returncode != 0:
-                    stderr = process.stderr.read()
+                    stderr = ""
+                    if process.stderr:
+                        stderr = process.stderr.read()
                     print(
-                        f"Claude Code failed with exit code {process.returncode}",
+                        f"Gemini CLI failed with exit code {process.returncode}",
                         file=sys.stderr,
                     )
                     print(f"Error: {stderr}", file=sys.stderr)
@@ -190,7 +193,7 @@ def run_model(
             result = subprocess.run(cmd, capture_output=True, text=True)
             if result.returncode != 0:
                 print(
-                    f"Claude Code failed with exit code {result.returncode}",
+                    f"Gemini CLI failed with exit code {result.returncode}",
                     file=sys.stderr,
                 )
                 print(f"Error: {result.stderr}", file=sys.stderr)
@@ -236,7 +239,7 @@ def main() -> None:
     parser.add_argument(
         "--interactive", action="store_true", help="Launch interactive chat session"
     )
-    parser.add_argument("--model", default="claude", help="Model CLI executable name")
+    parser.add_argument("--model", default="gemini", help="Model CLI executable name")
     parser.add_argument(
         "--output-format",
         choices=["text", "json", "stream-json"],

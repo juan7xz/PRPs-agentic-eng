@@ -1,6 +1,6 @@
-# CLAUDE.md
+# GEMINI.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Gemini CLI (gemini.ai/cli) when working with code in this repository.
 
 ## Project Nature
 
@@ -10,7 +10,7 @@ This is a **PRP (Product Requirement Prompt) Framework** repository, not a tradi
 
 ### Command-Driven System
 
-- **28+ pre-configured Claude Code commands** in `.claude/commands/`
+- **28+ pre-configured Gemini CLI commands** in `.claude/commands/`
 - Commands organized by function:
   - `PRPs/` - PRP creation and execution workflows
   - `development/` - Core development utilities (prime-core, onboarding, debug)
@@ -26,7 +26,7 @@ This is a **PRP (Product Requirement Prompt) Framework** repository, not a tradi
 
 ### AI Documentation Curation
 
-- `PRPs/ai_docs/` contains curated Claude Code documentation for context injection
+- `PRPs/ai_docs/` contains curated Gemini CLI documentation for context injection
 - `claude_md_files/` provides framework-specific CLAUDE.md examples
 
 ## Development Commands
@@ -44,12 +44,12 @@ uv run PRPs/scripts/prp_runner.py --prp [prp-name] --output-format json
 uv run PRPs/scripts/prp_runner.py --prp [prp-name] --output-format stream-json
 ```
 
-### Key Claude Commands
+### Key Gemini Commands
 
 - `/prp-base-create` - Generate comprehensive PRPs with research
 - `/prp-base-execute` - Execute PRPs against codebase
 - `/prp-planning-create` - Create planning documents with diagrams
-- `/prime-core` - Prime Claude with project context
+- `/prime-core` - Prime Gemini with project context
 - `/review-staged-unstaged` - Review git changes using PRP methodology
 
 ## Critical Success Patterns
@@ -114,7 +114,7 @@ curl -X POST http://localhost:8000/endpoint -H "Content-Type: application/json" 
 ### Command Usage
 
 - Read the .claude/commands directory
-- Access via `/` prefix in Claude Code
+- Access via `/` prefix in Gemini CLI
 - Commands are self-documenting with argument placeholders
 - Use parallel creation commands for rapid development
 - Leverage existing review and refactoring commands
@@ -124,12 +124,12 @@ curl -X POST http://localhost:8000/endpoint -H "Content-Type: application/json" 
 ```
 PRPs-agentic-eng/
 .claude/
-  commands/           # 28+ Claude Code commands
+  commands/           # 28+ Gemini CLI commands
   settings.local.json # Tool permissions
 PRPs/
   templates/          # PRP templates with validation
   scripts/           # PRP runner and utilities
-  ai_docs/           # Curated Claude Code documentation
+  ai_docs/           # Curated Gemini CLI documentation
    *.md               # Active and example PRPs
  claude_md_files/        # Framework-specific CLAUDE.md examples
  pyproject.toml         # Python package configuration

@@ -1,6 +1,6 @@
-# CLAUDE.md
+# GEMINI.md
 
-This file provides comprehensive guidance to Claude Code when working with Python code in this repository.
+This file provides comprehensive guidance to Gemini CLI when working with Python code in this repository.
 
 ## Core Development Philosophy
 
@@ -417,7 +417,7 @@ class Product(ProductBase):
 
 ### Commit Message Format
 
-Never include claude code, or written by claude code in commit messages
+Never include Gemini CLI, or written by gemini code in commit messages
 
 ```
 <type>(<scope>): <subject>
@@ -702,7 +702,7 @@ logger.info(
 
 - **NEVER ASSUME OR GUESS** - When in doubt, ask for clarification
 - **Always verify file paths and module names** before use
-- **Keep CLAUDE.md updated** when adding new patterns or dependencies
+- **Keep GEMINI.md updated** when adding new patterns or dependencies
 - **Test your code** - No feature is complete without tests
 - **Document your decisions** - Future developers (including yourself) will thank you
 
